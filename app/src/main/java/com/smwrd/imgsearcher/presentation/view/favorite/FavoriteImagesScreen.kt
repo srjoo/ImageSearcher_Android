@@ -68,9 +68,9 @@ fun FavoriteImageItem(
         Column(modifier = Modifier
             .weight(1f)
             .padding(start = 8.dp)) {
-            Text(favorite.title, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text(favorite.title, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold)
             if(favorite.title != favorite.description) {
-                Text(favorite.description, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
+                Text(favorite.description, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
             }
         }
         IconButton(onClick = { openWebpage(context = navController.context, url = favorite.description) }) {

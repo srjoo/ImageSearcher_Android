@@ -152,9 +152,9 @@ fun ImageListItem(image: ImageModel, viewModel: ImageViewModel, navController: N
         Column(modifier = Modifier
             .weight(1f)
             .padding(start = 8.dp)) {
-            Text(image.title, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text(image.title, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold)
             if(image.title != image.description) {
-                Text(image.description, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
+                Text(image.description, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
             }
         }
         IconButton(onClick = { openWebpage(context = navController.context, url = image.description) }) {

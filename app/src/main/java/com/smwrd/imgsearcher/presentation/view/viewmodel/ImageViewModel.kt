@@ -60,7 +60,7 @@ class ImageViewModel @Inject constructor(
     }
 
     fun loadMoreImages() {
-        if (!isLoading) {
+        if (!isLoading && !isEnd) {
             currentPage++
             loadImages()
         }

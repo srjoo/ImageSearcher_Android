@@ -123,7 +123,7 @@ fun ImageSearchScreen(viewModel: ImageViewModel,
         }
         if (viewModel.isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center).size(100.dp)
             )
         }
     }

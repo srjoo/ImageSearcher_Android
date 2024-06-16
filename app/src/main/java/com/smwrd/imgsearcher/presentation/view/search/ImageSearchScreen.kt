@@ -118,22 +118,10 @@ fun ImageSearchScreen(viewModel: ImageViewModel,
                     items(viewModel.imageResults) { image ->
                         ImageListItem(image, viewModel, navController)
                     }
-                    if (viewModel.isLoading) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
-                    }
                 }
             }
         }
-        if (viewModel.isLoading && viewModel.imageResults.isEmpty()) {
+        if (viewModel.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )

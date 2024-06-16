@@ -16,6 +16,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -34,20 +36,25 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.smwrd.imgsearcher.domain.model.ImageModel
+import com.smwrd.imgsearcher.presentation.util.openWebpage
 import com.smwrd.imgsearcher.presentation.view.viewmodel.ImageViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageSearchScreen(viewModel: ImageViewModel, navController: NavHostController) {
+fun ImageSearchScreen(viewModel: ImageViewModel,
+                      navController: NavHostController,
+                      modifier: Modifier = Modifier) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -62,7 +69,7 @@ fun ImageSearchScreen(viewModel: ImageViewModel, navController: NavHostControlle
                 }
             }
     }
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize(),) {
         Column {
             Row {
                 TextField(
@@ -157,7 +164,22 @@ fun ImageListItem(image: ImageModel, viewModel: ImageViewModel, navController: N
         Column(modifier = Modifier
             .weight(1f)
             .padding(start = 8.dp)) {
-            Text(image.title, fontWeight = FontWeight.Bold)
+            Text(image.title, overflow = TextOverflow.Ellipsis, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            if(image.title != image.description) {
+                Text(image.description, overflow = TextOverflow.Ellipsis, fontSize = 10.sp)
+            }
+        }
+        IconButton(onClick = { openWebpage(context = navController.context, url = image.description) }) {
+            Icon(imageVector = Icons.Default.Home,
+                contentDescription = null,
+                tint = Color.Blue
+            )
+        }
+        IconButton(onClick = { openWebpage(context = navController.context, url = image.url) }) {
+            Icon(imageVector = Icons.Default.Place,
+                contentDescription = null,
+                tint = Color.Blue
+            )
         }
         IconButton(onClick = { viewModel.toggleFavorite(image) }) {
             Icon(

@@ -38,13 +38,14 @@ class ImageViewModel @Inject constructor(
         }
     }
 
-    private fun loadImages() {
+    private fun loadImages(page: Int = 1) {
         if(!isLoading && searchQuery.isNotEmpty()) {
             isLoading = true
             viewModelScope.launch {
-                val response = searchImageUsecase(searchQuery, currentPage, 20)
+                val response = searchImageUsecase(searchQuery, page, 80) // kakao api max size == 80
                 imageResults = imageResults + response.results
-                isEnd = response.isEnd
+                isEnd = response.isEnd || page >= 50; // kakao api max page == 50
+                currentPage = page;
                 isLoading = false
             }
         }
@@ -61,8 +62,7 @@ class ImageViewModel @Inject constructor(
 
     fun loadMoreImages() {
         if (!isLoading && !isEnd) {
-            currentPage++
-            loadImages()
+            loadImages(page = currentPage+1)
         }
     }
 
